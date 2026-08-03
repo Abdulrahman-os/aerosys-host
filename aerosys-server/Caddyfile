@@ -1,0 +1,23 @@
+# Caddyfile — automatic HTTPS reverse proxy for self-hosting on your own domain.
+# Point your DNS A records at this server's IP first, then run:
+#   docker compose up -d
+# with the caddy service uncommented in docker-compose.yml.
+#
+# Replace the example subdomains below with wherever you want each gateway
+# to live — these do NOT have to be vercel.app addresses anymore.
+
+gateway.aerosys.aero {
+  reverse_proxy aerosys-backend:4000
+}
+
+mission-control.aerosys.aero {
+  reverse_proxy aerosys-backend:4000
+}
+
+rtos.aerosys.aero {
+  reverse_proxy aerosys-backend:4000
+}
+
+api.aerosys.aero {
+  reverse_proxy aerosys-backend:4000
+}

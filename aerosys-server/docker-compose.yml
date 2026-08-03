@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  aerosys-backend:
+    build: .
+    container_name: aerosys-unified-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data          # persists aerosys.db (licenses, tickets)
+      - ./public:/app/public      # drop the 3 gateway HTML files + portals here to serve them from this same box
+
+  # Optional: Caddy reverse proxy for automatic HTTPS on your own domain.
+  # Point aerosys9000.yourdomain.com / mission-control.yourdomain.com / etc.
+  # at this box's IP, then uncomment below and edit Caddyfile.
+  #
+  # caddy:
+  #   image: caddy:2-alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./Caddyfile:/etc/caddy/Caddyfile
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   depends_on:
+  #     - aerosys-backend
+
+# volumes:
+#   caddy_data:
+#   caddy_config:
