@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "functions": {
+    "api/**/*.js": { "runtime": "nodejs20.x" }
+  },
+  "routes": [
+    { "src": "/api/admin/check",           "dest": "/api/admin/check.js" },
+    { "src": "/api/checkout/create-session","dest": "/api/checkout/create-session.js" },
+    { "src": "/api/webhook/stripe",        "dest": "/api/webhook/stripe.js" },
+    { "src": "/api/mail/send",             "dest": "/api/mail/send.js" },
+    { "src": "/api/cloudflare/records",    "dest": "/api/cloudflare/records.js" },
+    { "src": "/api/cloudflare/verify-txt", "dest": "/api/cloudflare/verify-txt.js" },
+    { "src": "/api/license/verify",        "dest": "/api/license/verify.js" },
+    { "src": "/api/storage/firmware",      "dest": "/api/storage/firmware.js" },
+    { "src": "/aerosys9000",               "dest": "/aerosys9000/index.html" },
+    { "src": "/aerosys9000/(.*)",          "dest": "/aerosys9000/$1" },
+    { "src": "/mission-control",           "dest": "/mission-control/index.html" },
+    { "src": "/mission-control/(.*)",      "dest": "/mission-control/$1" },
+    { "src": "/rtos",                      "dest": "/rtos/index.html" },
+    { "src": "/rtos/(.*)",                 "dest": "/rtos/$1" },
+    { "src": "/success",                   "dest": "/success.html" },
+    { "src": "/cancel",                    "dest": "/cancel.html" },
+    { "src": "/",                          "dest": "/index.html" }
+  ]
+}

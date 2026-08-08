@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AeroSys Avionics — Platform Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --void:#040608;--panel:#0A1018;--line:#162030;--dim:#5A7898;--body:#98B8D0;--head:#D0E8FA;--white:#EEF6FF;
+  --amber:#F5A623;--cyan:#00D4FF;--green:#22D36A;--blue:#2D6BFF;--purple:#b84dff;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Orbitron',var(--mono);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--void);color:var(--body);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(245,166,35,.08) 0%,transparent 60%),
+  linear-gradient(rgba(45,107,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(45,107,255,.018) 1px,transparent 1px);
+  background-size:100% 100%,44px 44px,44px 44px;pointer-events:none;z-index:0;}
+
+header{position:sticky;top:0;z-index:100;background:rgba(4,6,8,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(245,166,35,.15);height:52px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 2rem;}
+.logo{font-family:var(--display);font-size:14px;font-weight:800;color:var(--amber);letter-spacing:.12em;}
+.logo span{color:var(--head);}
+.hlinks{display:flex;gap:1.5rem;}
+.hlinks a{font-family:var(--mono);font-size:9px;color:var(--dim);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;}
+.hlinks a:hover{color:var(--amber);}
+
+.hero{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:6rem 2rem 4rem;}
+.hero-eye{font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.hero-eye::before{content:'◈';}
+h1{font-family:var(--display);font-size:clamp(2rem,5vw,4rem);font-weight:800;color:var(--white);
+  letter-spacing:.03em;line-height:1.1;margin-bottom:1rem;}
+h1 span{color:var(--amber);}
+.hero-sub{font-size:1.05rem;color:var(--dim);line-height:1.8;max-width:600px;margin-bottom:3rem;}
+
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;
+  background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.1);max-width:1280px;margin:0 auto 2rem;}
+.prod{background:var(--panel);padding:2rem;position:relative;overflow:hidden;transition:background .2s;}
+.prod:hover{background:#0e1620;}
+.prod::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .25s;}
+.prod:hover::before{opacity:1;}
+.prod.amber::before{background:linear-gradient(90deg,var(--amber),var(--cyan));}
+.prod.cyan::before{background:linear-gradient(90deg,var(--cyan),var(--blue));}
+.prod.purple::before{background:linear-gradient(90deg,var(--purple),var(--cyan));}
+.prod.green::before{background:linear-gradient(90deg,var(--green),var(--blue));}
+.prod.blue::before{background:linear-gradient(90deg,var(--blue),var(--purple));}
+.prod-id{font-family:var(--display);font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;}
+.prod.amber .prod-id{color:var(--amber);}
+.prod.cyan .prod-id{color:var(--cyan);}
+.prod.purple .prod-id{color:var(--purple);}
+.prod.green .prod-id{color:var(--green);}
+.prod.blue .prod-id{color:var(--blue);}
+.prod-name{font-family:var(--display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.6rem;line-height:1.3;}
+.prod-desc{font-size:.85rem;color:var(--dim);line-height:1.7;margin-bottom:1.5rem;}
+.prod-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.5rem;}
+.chip{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid;}
+.prod.amber .chip{color:var(--amber);border-color:rgba(245,166,35,.3);}
+.prod.cyan .chip{color:var(--cyan);border-color:rgba(0,212,255,.3);}
+.prod.purple .chip{color:var(--purple);border-color:rgba(184,77,255,.3);}
+.prod.green .chip{color:var(--green);border-color:rgba(34,211,106,.3);}
+.prod.blue .chip{color:var(--blue);border-color:rgba(45,107,255,.3);}
+.prod-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:9px;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:10px 18px;
+  border:1px solid;transition:all .2s;}
+.prod.amber .prod-link{color:var(--amber);border-color:rgba(245,166,35,.4);}
+.prod.amber .prod-link:hover{background:var(--amber);color:var(--void);}
+.prod.cyan .prod-link{color:var(--cyan);border-color:rgba(0,212,255,.4);}
+.prod.cyan .prod-link:hover{background:var(--cyan);color:var(--void);}
+.prod.purple .prod-link{color:var(--purple);border-color:rgba(184,77,255,.4);}
+.prod.purple .prod-link:hover{background:var(--purple);color:#fff;}
+.prod.green .prod-link{color:var(--green);border-color:rgba(34,211,106,.4);}
+.prod.green .prod-link:hover{background:var(--green);color:var(--void);}
+.prod.blue .prod-link{color:var(--blue);border-color:rgba(45,107,255,.4);}
+.prod.blue .prod-link:hover{background:var(--blue);color:#fff;}
+
+.portals{max-width:1280px;margin:0 auto 4rem;padding:0 2rem;}
+.portals-title{font-family:var(--display);font-size:9px;color:var(--amber);letter-spacing:.18em;
+  text-transform:uppercase;margin-bottom:1.25rem;}
+.portals-title::before{content:'◈ ';}
+.portal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.1);}
+.portal-card{background:var(--panel);padding:1.5rem;text-decoration:none;display:block;transition:background .2s;}
+.portal-card:hover{background:#0e1620;}
+.pc-eye{font-family:var(--display);font-size:8px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;}
+.pc-name{font-family:var(--display);font-size:.95rem;font-weight:700;color:var(--head);margin-bottom:.4rem;}
+.pc-desc{font-size:.8rem;color:var(--dim);line-height:1.65;}
+
+footer{border-top:1px solid rgba(245,166,35,.12);padding:2rem;position:relative;z-index:1;}
+.foot-inner{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.foot-copy{font-family:var(--mono);font-size:9px;color:var(--dim);line-height:1.8;}
+.foot-links{display:flex;gap:1.25rem;}
+.foot-links a{font-family:var(--mono);font-size:9px;color:var(--dim);text-decoration:none;}
+.foot-links a:hover{color:var(--amber);}
+
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);
+  animation:blink 2s ease-in-out infinite;vertical-align:middle;margin-right:5px;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--void);}
+::-webkit-scrollbar-thumb{background:rgba(245,166,35,.25);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AERO<span>SYS</span></div>
+  <nav class="hlinks">
+    <a href="/aerosys9000/">AeroSys 9000</a>
+    <a href="/mission-control/">Mission Control</a>
+    <a href="/rtos/">RTOS</a>
+    <a href="https://portal.aerosys.aero" target="_blank">Company Portal</a>
+    <a href="https://portal.macro-soft.com" target="_blank">Industry Portal</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-eye">AeroSys Avionics Ltd · Platform Suite</div>
+  <h1>Integrated Aerospace<br/><span>Systems Platform</span></h1>
+  <p class="hero-sub">Five tightly coupled platforms covering integrated avionics, real-time operations, mission control, engineering management, and planetary-scale RTOS. All accessible from this suite.</p>
+</div>
+
+<div class="products" style="padding:0 2rem;max-width:calc(1280px + 4rem);margin:0 auto 2rem;">
+<style>.products{padding:0!important;}</style>
+
+  <div class="prod amber">
+    <div class="prod-id">AS-9000 · Integrated Avionics</div>
+    <div class="prod-name">AeroSys 9000 Platform</div>
+    <div class="prod-desc">Full glass cockpit suite, 7-page display system, FMS MCDU, FADEC, ECAM, 17-endpoint REST API, Ada 2022 backend, training fleet simulator for Cessna 152/172, Piper PA-28, Diamond DA40, ATR 72, Cirrus SR22, and airliner firmware downloads.</div>
+    <div class="prod-chips">
+      <span class="chip">DO-178C Lvl B</span>
+      <span class="chip">Ada 2022</span>
+      <span class="chip">ARINC 429</span>
+      <span class="chip">OpenAPI 3.1</span>
+    </div>
+    <a class="prod-link" href="/aerosys9000/">Access Platform ▶</a>
+  </div>
+
+  <div class="prod cyan">
+    <div class="prod-id">AMC · Mission Operations</div>
+    <div class="prod-name">Aerospace Mission Control</div>
+    <div class="prod-desc">DO-178C DAL A operations dashboard for aircraft and spacecraft. Real-time telemetry, multi-vehicle tracking, command console, anomaly detection, crew comms, and data recording with replay capability.</div>
+    <div class="prod-chips">
+      <span class="chip">DO-178C DAL A</span>
+      <span class="chip">Real-Time SSE</span>
+      <span class="chip">Multi-Vehicle</span>
+    </div>
+    <a class="prod-link" href="/mission-control/">Access Platform ▶</a>
+  </div>
+
+  <div class="prod purple">
+    <div class="prod-id">RTOS · Real-Time OS</div>
+    <div class="prod-name">Ultimate Aerospace RTOS</div>
+    <div class="prod-desc">42-task fixed-priority preemptive scheduler, AI threat detection (passive/active/suppression), TCAS II Change 7.1 RA, EICAS dual-engine synoptic, ATC comms, and weather avoidance. Licensed by serial number.</div>
+    <div class="prod-chips">
+      <span class="chip">42 Tasks</span>
+      <span class="chip">AI Threat Det.</span>
+      <span class="chip">TCAS RA</span>
+      <span class="chip">DO-185B</span>
+    </div>
+    <a class="prod-link" href="/rtos/">Access Platform ▶</a>
+  </div>
+
+  <div class="prod green">
+    <div class="prod-id">AOS · Unified Shell</div>
+    <div class="prod-name">AeroSys OS</div>
+    <div class="prod-desc">Unified modular aerospace platform shell integrating Engineering 9000, RTOS Systems, Mission Control, and AI Assistant under one interface. Four-layer unified ecosystem: AI intelligence → Mission control ops → Real-time systems → Engineering core.</div>
+    <div class="prod-chips">
+      <span class="chip">Unified Ecosystem</span>
+      <span class="chip">AI Assistant</span>
+      <span class="chip">Cloud/On-Prem</span>
+    </div>
+    <a class="prod-link" href="https://aerosys-9000.vercel.app" target="_blank">View System ▶</a>
+  </div>
+
+  <div class="prod blue">
+    <div class="prod-id">PS-RTOS · Planetary Scale</div>
+    <div class="prod-name">Planetary Scale Aerospace RTOS</div>
+    <div class="prod-desc">One RTOS across every orbit and every mission — LEO/MEO/GEO satellites, cislunar gateways, deep space probes, Mars surface operations, and beyond. DO-178C DAL A, ISO 26262 ASIL D. Microsecond determinism, fault-tolerant self-healing, cyber-secure by design. 2.48 Tbps live telemetry rate.</div>
+    <div class="prod-chips">
+      <span class="chip">DAL A / ASIL D</span>
+      <span class="chip">LEO → Mars</span>
+      <span class="chip">8.3µs Latency</span>
+      <span class="chip">Self-Healing</span>
+    </div>
+    <a class="prod-link" href="https://ultimate-aerospace-rtos.vercel.app" target="_blank">View System ▶</a>
+  </div>
+
+</div>
+
+<div class="portals">
+  <div class="portals-title">Web Infrastructure & Documentation Portals</div>
+  <div class="portal-grid">
+    <a class="portal-card" href="https://webservices.macro-soft.com" target="_blank">
+      <div class="pc-eye">Macro-Soft · Industry Landing</div>
+      <div class="pc-name">webservices.macro-soft.com</div>
+      <div class="pc-desc">Aviation industry web services platform. DNS management, managed hosting, industry portals, email infrastructure, and API integration for commercial aviation operators.</div>
+    </a>
+    <a class="portal-card" href="https://portal.macro-soft.com" target="_blank">
+      <div class="pc-eye">Macro-Soft · Industry Portal</div>
+      <div class="pc-name">portal.macro-soft.com</div>
+      <div class="pc-desc">Comprehensive aviation industry documentation — ICAO framework, EASA/FAA regulatory structure, airworthiness, ATA 100 systems, DO-178C standards, flight operations, MRO, SMS, and ATM/CNS.</div>
+    </a>
+    <a class="portal-card" href="https://webservices.aerosys.aero" target="_blank">
+      <div class="pc-eye">AeroSys · Company Landing</div>
+      <div class="pc-name">webservices.aerosys.aero</div>
+      <div class="pc-desc">AeroSys Avionics Ltd company web services. .aero TLD infrastructure, Cloudflare CDN, TLS 1.3, and the web stack underpinning all AeroSys product deployments.</div>
+    </a>
+    <a class="portal-card" href="https://portal.aerosys.aero" target="_blank">
+      <div class="pc-eye">AeroSys · Company Portal</div>
+      <div class="pc-name">portal.aerosys.aero</div>
+      <div class="pc-desc">Company documentation portal — AS-9000 technical guide, 17-endpoint REST API reference, DO-178C compliance docs, ARINC 429 label dictionary, Ada 2022 architecture, integration guide, and system support.</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-copy">
+      <span class="live-dot"></span>All systems nominal<br/>
+      © 2026 AeroSys Avionics Ltd · aerosys-host.vercel.app · DO-178C Certified Systems
+    </div>
+    <div class="foot-links">
+      <a href="/aerosys9000/">AeroSys 9000</a>
+      <a href="/mission-control/">Mission Control</a>
+      <a href="/rtos/">RTOS</a>
+      <a href="https://portal.aerosys.aero" target="_blank">Docs</a>
+      <a href="mailto:admin@webservices.aerosys.aero">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
