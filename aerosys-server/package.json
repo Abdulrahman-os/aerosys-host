@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "vercel-build": "echo 'Static site - no build step required'"
+    "vercel-build": "echo 'Static + serverless - no build step'"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.658.0",
